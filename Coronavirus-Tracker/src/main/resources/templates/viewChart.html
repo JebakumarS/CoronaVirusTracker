@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+
+
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+ 
+  getJson();
+  async function getJson(){
+	  countries=[];
+	  deathCount=[];
+	  const response=await fetch("http://localhost:8080/viewJSON");
+	  const data=await response.json();
+	  for(i=0;i<data.length;i++){
+		  countries.push(data[i].country);
+		  deathCount.push(data[i].latestTotalDeaths);
+	  }
+	  
+  }
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: countries,
+      datasets: [{
+        label: 'Death Count',
+        data: deathCount,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
